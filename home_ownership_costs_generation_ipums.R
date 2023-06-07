@@ -106,6 +106,19 @@ home_prices <- read_excel("./data/usprice_cust.xls",
   select(-Average) %>% 
   rename(YEAR = Period, median_home_price = Median)
 
+# Calculating proportion of 10% home downpayment for each generation's average 
+# household income in 9th year of adulthood
+
+ninth_year_hh_income_gen <- hh_income_by_gen %>% 
+  filter(adult_yr == 26L)
+
+gen_downpmt_prop <- home_prices %>% 
+  filter(YEAR %in% c(1990, 2006, 2022)) %>% 
+  inner_join(ninth_year_hh_income_gen, by = "YEAR") %>% 
+  mutate(ten_pct_downpmt_prop = (median_home_price * .1) / AVG_HH_INCOME)
+
+write_csv(gen_downpmt_prop, "./data/gen_downpmt_prop.csv")
+
 # Getting 30-year fixed mortgage interest rate data from Freddie Mac via FRED
 # https://fred.stlouisfed.org/series/MORTGAGE30US
 # and calculating yearly average.
