@@ -115,7 +115,7 @@ ninth_year_hh_income_gen <- hh_income_by_gen %>%
 gen_downpmt_prop <- home_prices %>% 
   filter(YEAR %in% c(1990, 2006, 2022)) %>% 
   inner_join(ninth_year_hh_income_gen, by = "YEAR") %>% 
-  mutate(ten_pct_downpmt_prop = (median_home_price * .1) / AVG_HH_INCOME)
+  mutate(twenty_pct_downpmt_prop = (median_home_price * .2) / AVG_HH_INCOME)
 
 write_csv(gen_downpmt_prop, "./data/gen_downpmt_prop.csv")
 
